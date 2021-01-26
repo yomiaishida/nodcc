@@ -6,6 +6,9 @@ const app = express();
 // Listen for requests
 app.listen(3000);
 
+// middleware & static files
+app.use(express.static("public"));
+
 // register view engine
 app.set("view engine", "ejs");
 

@@ -1,10 +1,25 @@
 const express = require("express");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
 
 // express app
 const app = express();
 
-// Listen for requests
-app.listen(3000);
+// connect to mongodb
+const dbURI =
+  "mongodb+srv://abayomi123:abayomi123@nodeblog.8mmtd.mongodb.net/node-blog?retryWrites=true&w=majority";
+mongoose
+  .connect(dbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((result) => {
+    app.listen(3000);
+    console.log("MongoDb Connected");
+  })
+  .catch((err) => console.log(err));
+
+app.use(morgan("dev"));
 
 // middleware & static files
 app.use(express.static("public"));

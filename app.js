@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const Blog = require("./models/blog");
+const { result } = require("lodash");
 
 // express app
 const app = express();
@@ -38,6 +39,10 @@ app.get("/about", (req, res) => {
 });
 
 // blog routes
+app.get("/blogs/create", (req, res) => {
+  res.render("create", { title: "Create New Blog" });
+});
+
 app.get("/blogs", (req, res) => {
   Blog.find()
     .sort({ createdAt: -1 })
@@ -62,8 +67,27 @@ app.post("/blogs", (req, res) => {
     });
 });
 
-app.get("/blogs/create", (req, res) => {
-  res.render("create", { title: "Create New Blog" });
+app.get("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+    .then((result) => {
+      res.render("details", { blog: result, title: "Blog Details" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.delete("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+
+  Blog.findByIdAndDelete(id)
+    .then((result) => {
+      res.json({ redirect: "/blogs" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 // 404 page

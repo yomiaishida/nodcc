@@ -9,6 +9,8 @@
       <div class="content">
         <p><%= blog.body %></p>
       </div>
+      <p class="posted-on">Date Posted:</p>
+      <span class="date-created"><%= blog.createdAt %></span>
       <a class="delete" data-doc="<%= blog._id %>"
         ><img src="/trashcan.svg" alt="delete icon"
       /></a>
